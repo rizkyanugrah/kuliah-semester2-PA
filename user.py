@@ -2,6 +2,7 @@ from platform import node
 import time
 from database import koneksi
 from termcolor import colored
+from helper import formatrupiah
 from prettytable import PrettyTable
 
 class Node:
@@ -36,10 +37,12 @@ class linkedlist:
     
         print(colored('[+] DAFTAR BARANG BRANDED [+]', 'green'))
         tables = PrettyTable(["KODE", "NAMA BARANG", "HARGA", "STATUS"])
+        tables.align = "l"
 
         node = self.head
         while node != None:
-            tables.add_row(node.data)
+            data_to_row = node.data[0],node.data[1],formatrupiah(node.data[2]),node.data[3]
+            tables.add_row(data_to_row)
             node = node.next
 
         print(tables)        

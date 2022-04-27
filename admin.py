@@ -1,7 +1,9 @@
 import time
 from database import koneksi
 from termcolor import colored
+from helper import formatrupiah
 from prettytable import PrettyTable
+
 
 def lihat_penawaran():
     conn = koneksi()
@@ -19,7 +21,8 @@ def lihat_penawaran():
 
     tables = PrettyTable(["ID", "NAMA PENAWAR", "NAMA BARANG", "TAWARAN"])
     for data in cursor:
-        tables.add_row(data)
+        data_fix = data[0],data[1],data[2],formatrupiah(data[3])
+        tables.add_row(data_fix)
 
     print(tables)
 

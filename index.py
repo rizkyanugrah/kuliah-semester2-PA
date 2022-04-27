@@ -20,10 +20,10 @@ def menu_admin() :
 		print(colored("[=====================]", 'green'))
 		print(colored('[1]', 'cyan'), 'Lihat Penawaran')
 		print(colored('[2]', 'yellow'), 'Daftar Barang')
-		print(colored('[3]', 'green'), 'Tambah Barang Lelang')
+		print(colored('[3]', 'magenta'), 'Tambah Barang Lelang')
 		print(colored('[4]', 'blue'), 'Ubah Barang Lelang')
 		print(colored('[5]', 'red'), 'Hapus Barang Lelang ')
-		print(colored('[6]', 'magenta'), 'Transaksi')
+		print(colored('[6]', 'green'), 'Transaksi')
 		print(colored('[7]', 'red'), 'Keluar')
 
 		menu = input('\nPilih: ')
@@ -48,14 +48,19 @@ def menu_user() :
 
 
 def app() :
-	# buat_tabel(seed=True) uncomand jika baru pertama kali Menjalankan Program ini
-	bersihkan_console()
-	print(colored("[======================================================]", 'green'))
-	print(colored("[+]     Silahkan login jika sudah punya akun         [+]", 'yellow'))
-	print(colored("[+]  Silahkan register jika anda belum memiliki akun [+]", 'yellow'))
-	print(colored("[======================================================]", 'green'))
+	try:
+		# buat_tabel(seed=True) uncomand jika baru pertama kali Menjalankan Program ini
+		bersihkan_console()
+		print(colored("[======================================================]", 'green'))
+		print(colored("[+]     Silahkan login jika sudah punya akun         [+]", 'yellow'))
+		print(colored("[+]  Silahkan register jika anda belum memiliki akun [+]", 'yellow'))
+		print(colored("[======================================================]", 'green'))
 
-	option = input("\n(Login/Register) : ").lower() 
+		option = input("\n(Login/Register) : ").lower()
+	except KeyboardInterrupt:
+		print()
+		print(colored("\nSampai Nanti !",'green'))
+		exit()
 
 	if option == 'login':
 
@@ -127,18 +132,14 @@ def app() :
 						print(colored("Masukan Menu Yang Sesuai",'red'))
 						time.sleep(2)
 						bersihkan_console()
-						
-				else :
-					print(colored("\nSampai Nanti !",'green'))
-					time.sleep(2)
-					return
 		except KeyboardInterrupt:
+			print()
 			print(colored("\nSampai Nanti !",'green'))
+			exit()
 	elif option == 'register':
 		register()
 	else:
 		print(colored('\nMasukan inputan dengan benar!', 'red'))
 		time.sleep(2)
-		return app()
-
+		app()
 app()
