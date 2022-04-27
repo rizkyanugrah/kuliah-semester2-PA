@@ -9,18 +9,15 @@ def lihat_penawaran():
 
     print(colored('[+] DAFTAR PENAWARAN [+]', 'green'))
     try:
-        # sql = "SELECT * FROM proses_lelang"
-        # sql = "SELECT * FROM proses_lelang as p INNER JOIN user AS u INNER JOIN barang_lelang ON p.user_id = u.id_user"
-        sql = "SELECT proses_lelang.id_proses, user.nama, barang_lelang.nama_barang, proses_lelang.tawaran FROM proses_lelang INNER JOIN user ON proses_lelang.id_proses = user.id_user"
+        sql = "SELECT proses_lelang.id_proses, user.nama, barang_lelang.nama_barang, proses_lelang.tawaran FROM proses_lelang INNER JOIN user ON proses_lelang.id_proses = user.id_user INNER JOIN barang_lelang on proses_lelang.barang_kode = barang_lelang.kode_barang"
         cursor.execute(sql)
-        # SELECT * FROM user AS u INNER JOIN user_achievement AS i ON u.id = i.user_id
     except:
             print(colored('Data Tidak Ada / Kosong!','yellow'))
             time.sleep(2)
             return
 
 
-    tables = PrettyTable(["ID", "Nama_Barang", "Nama_Penawar", "Tawaran"])
+    tables = PrettyTable(["ID", "NAMA PENAWAR", "NAMA BARANG", "TAWARAN"])
     for data in cursor:
         tables.add_row(data)
 

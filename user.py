@@ -35,7 +35,7 @@ class linkedlist:
                 self.head = node
     
         print(colored('[+] DAFTAR BARANG BRANDED [+]', 'green'))
-        tables = PrettyTable(["KODE", "NAMA_BARANG", "HARGA", "STATUS"])
+        tables = PrettyTable(["KODE", "NAMA BARANG", "HARGA", "STATUS"])
 
         node = self.head
         while node != None:
