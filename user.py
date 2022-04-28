@@ -106,9 +106,23 @@ class linkedlist:
 # l = linkedlist()
 # l.search_barang()
 
-def proses_nawar():
-    queue = []
+queue = []
+index = -1
+def tambah_ke_queue(data):
+    global queue
+    global index
 
+    index =+ 1
+    queue += [data]
+    
+def hapus_queue():
+    global queue
+    global index
+
+    del(queue[0])
+    index =- 1
+
+def proses_nawar():
     conn = koneksi()
     cursor = conn.cursor()
 
@@ -128,7 +142,7 @@ def proses_nawar():
 
             if is_sure == 'y':
                 # membuat queue
-                queue.append("UPDATE proses_lelang SET user_id = %s, tawaran = %s WHERE barang_kode = %s")
+                tambah_ke_queue("UPDATE proses_lelang SET user_id = %s, tawaran = %s WHERE barang_kode = %s")
 
                 # ambil data berdasarkan di qeueu
                 cursor.execute(queue[0],(auth.data_user[0], int(tawaran), int(kode_barang)))
@@ -136,8 +150,8 @@ def proses_nawar():
                 conn.commit()
 
                 # hapus data yang ada di queue
-                queue.pop(0)
-                
+                hapus_queue()
+
                 bersihkan_console()
                 lihat_penawaran()
 
