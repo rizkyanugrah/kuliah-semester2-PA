@@ -2,7 +2,7 @@ from platform import node
 import time
 from database import koneksi
 from termcolor import colored
-from helper import formatrupiah
+from helper import bersihkan_console, formatrupiah
 from prettytable import PrettyTable
 
 class Node:
@@ -49,57 +49,59 @@ class linkedlist:
         self.head = None
 
 
-#     def fibonanci_search(self,isi, x, n):
-#         fibonaci2 = 0 
-#         fibonaci1 = 1 
-#         fibonaci = fibonaci2 + fibonaci1 
-#         while (fibonaci < n):
-#             fibonaci2 = fibonaci1
-#             fibonaci1 = fibonaci
-#             fibonaci = fibonaci2 + fibonaci1
-#         offset = -1
-#         while (fibonaci > 1):
-#             i = min(offset+fibonaci2, n-1)
-#             if (isi[i] < x):
-#                 fibonaci = fibonaci1
-#                 fibonaci1 = fibonaci2
-#                 fibonaci2 = fibonaci - fibonaci1
-#                 offset = i
-#             elif (isi[i] > x):
-#                 fibonaci = fibonaci2
-#                 fibonaci1 = fibonaci1 - fibonaci2
-#                 fibonaci2 = fibonaci - fibonaci1
-#             else:
-#                 return i
-#         if(fibonaci1 and isi[n-1] == x):
-#             return n-1
+    def fibonanci_search(self,isi, x, n):
+        fibonaci2 = 0 
+        fibonaci1 = 1 
+        fibonaci = fibonaci2 + fibonaci1 
+        while (fibonaci < n):
+            fibonaci2 = fibonaci1
+            fibonaci1 = fibonaci
+            fibonaci = fibonaci2 + fibonaci1
+        offset = -1
+        while (fibonaci > 1):
+            i = min(offset+fibonaci2, n-1)
+            if (isi[i] < x):
+                fibonaci = fibonaci1
+                fibonaci1 = fibonaci2
+                fibonaci2 = fibonaci - fibonaci1
+                offset = i
+            elif (isi[i] > x):
+                fibonaci = fibonaci2
+                fibonaci1 = fibonaci1 - fibonaci2
+                fibonaci2 = fibonaci - fibonaci1
+            else:
+                return i
+        if(fibonaci1 and isi[n-1] == x):
+            return n-1
 
+    def search_barang(self):
+        bersihkan_console()
+        conn = koneksi()
+        cursor = conn.cursor()
 
-#     def search_barang(self):
-#         conn = koneksi()
-#         cursor = conn.cursor()
-#         asdlist =  []
+        try:
+            # cursor.execute("SELECT nama_barang FROM barang_lelang ORDER BY barang_lelang.kode_barang ASC")
+            cursor.execute("SELECT nama_barang FROM barang_lelang")
+            records = cursor.fetchall()
+        except:
+                print(colored('Data Tidak Ada / Kosong!','yellow'))
+                time.sleep(2)
+                return
 
-#         try:
-#             sql = "SELECT kode_barang, nama_barang FROM barang_lelang"
-#             cursor.execute(sql)
-#             tes = cursor.fetchall()
-#         except:
-#                 print(colored('Data Tidak Ada / Kosong!','yellow'))
-#                 time.sleep(2)
-#                 return
-
-#         self.daftar_barang()
+        self.daftar_barang()
         
-#         search = input('Masukan Barang Yang Ingin Di Cari : ')
+        search = input('Masukan Barang Yang Ingin Di Cari : ')
 
-#         for i in range(len(tes)):
-#             for j in range(len(tes[i])):
-#                 asdlist.append(tes[i][j])
-#         # asdlist.sort()
-#         print(asdlist)
-#         input('...')
-#         # result = self.fibonanci_search(asdlist,search,len(asdlist))
+        data_list =  []
+        for i in range(len(records)):
+            for j in range(len(records[i])):
+                data_list.append(records[i][j])
+
+        print(data_list)
+        # data_list.sort()
+        result = self.fibonanci_search(data_list,search,len(data_list))
+        print(result)
+        input('...')
 
 
 # l = linkedlist()
