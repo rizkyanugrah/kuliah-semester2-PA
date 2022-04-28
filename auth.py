@@ -15,8 +15,9 @@ from database import koneksi
 
 # Define a function for
 # for validating an Email
-
 regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+
+data_user = None
 def check(email):
 
 	if(re.fullmatch(regex, email)):
@@ -26,6 +27,7 @@ def check(email):
 		return "Invalid Email"
 
 def login() :
+	global data_user
 	try :
 		bersihkan_console()
 
@@ -59,6 +61,7 @@ def login() :
 			
 			# cek password
 			if cek_password :
+				data_user = akun_users
 				print(colored('\nSelamat Anda Berhasil Login ^^','green'))
 				time.sleep(2)
 				return 'user'
@@ -75,6 +78,7 @@ def login() :
 			
 			# cek password
 			if cek_password :
+				data_user = akun_admin
 				print(colored('\nSelamat Anda Berhasil Login ^^','green'))
 				time.sleep(2)
 				return 'admin'

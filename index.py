@@ -10,7 +10,7 @@ from helper import bersihkan_console, hash_password
 from database import koneksi,buat_tabel
 from auth import login, logout, register
 from admin import lihat_penawaran,tambah,ubah,hapus
-from user import linkedlist
+from user import linkedlist,proses_nawar
 
 def menu_admin() :
 		bersihkan_console()
@@ -122,7 +122,17 @@ def app() :
 						l_user.search_barang()
 
 					elif menu == '3' :
-						print('Melakukan Penawaran')
+						bersihkan_console()
+						lihat_penawaran()
+						print(colored('[1]', 'green'), 'Proses Menawar')
+						print(colored('[2]', 'red'), 'Kembali')
+
+						menu = input('\nPilih : ')
+
+						if menu == '1':
+							proses_nawar()
+						elif menu == '2':
+							menu_user()
 
 					elif menu == '4' :
 						terminate = True

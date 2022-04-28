@@ -1,10 +1,11 @@
 from platform import node
 import time
+from admin import lihat_penawaran
 from database import koneksi
 from termcolor import colored
-from helper import formatrupiah
+from helper import bersihkan_console, formatrupiah
 from prettytable import PrettyTable
-
+import auth
 class Node:
     def __init__(self,data):
         self.data = data
@@ -104,3 +105,39 @@ class linkedlist:
 
 # l = linkedlist()
 # l.search_barang()
+
+def proses_nawar():
+    conn = koneksi()
+    cursor = conn.cursor()
+
+    kode_barang = input("\nMasukkan kode barang yang ingin ditawar : ")
+
+    cursor.execute("SELECT proses_lelang.id_proses, user.nama, proses_lelang.barang_kode, barang_lelang.nama_barang, proses_lelang.tawaran FROM proses_lelang INNER JOIN user ON proses_lelang.user_id = user.id_user INNER JOIN barang_lelang on proses_lelang.barang_kode = barang_lelang.kode_barang WHERE proses_lelang.barang_kode = %s", (kode_barang,))
+
+    data = cursor.fetchone()
+    if data:
+        tawaran = input("Masukkan nominal penawaran : ")
+
+        if int(tawaran) <= int(data[4]):
+            print(colored('\nNominal tawaran harus lebih dari tawaran sebelumnya!', 'red'))
+            time.sleep(3)
+        else:
+            is_sure = input(colored('\nApakah anda yakin? (y/n) : ', 'yellow'))
+
+            if is_sure == 'y':
+                cursor.execute(
+                "UPDATE proses_lelang SET user_id = %s, tawaran = %s WHERE barang_kode = %s", 
+                (auth.data_user[0], int(tawaran), int(kode_barang))
+                )
+            
+                conn.commit()
+
+                bersihkan_console()
+                lihat_penawaran()
+
+                print(colored("\nBerhasil melakukan penawaran!", 'green'))
+                time.sleep(3)
+            else:
+                proses_nawar()
+    else:
+        print(colored('\nKode barang tidak ditemukan!', 'red'))

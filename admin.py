@@ -4,14 +4,13 @@ from termcolor import colored
 from helper import formatrupiah
 from prettytable import PrettyTable
 
-
 def lihat_penawaran():
     conn = koneksi()
     cursor = conn.cursor()
 
     print(colored('[+] DAFTAR PENAWARAN [+]', 'green'))
     try:
-        sql = "SELECT proses_lelang.id_proses, user.nama, barang_lelang.nama_barang, proses_lelang.tawaran FROM proses_lelang INNER JOIN user ON proses_lelang.id_proses = user.id_user INNER JOIN barang_lelang on proses_lelang.barang_kode = barang_lelang.kode_barang"
+        sql = "SELECT proses_lelang.id_proses, user.nama, barang_lelang.kode_barang, barang_lelang.nama_barang, proses_lelang.tawaran FROM proses_lelang INNER JOIN user ON proses_lelang.user_id = user.id_user INNER JOIN barang_lelang on proses_lelang.barang_kode = barang_lelang.kode_barang"
         cursor.execute(sql)
     except:
             print(colored('Data Tidak Ada / Kosong!','yellow'))
@@ -19,9 +18,9 @@ def lihat_penawaran():
             return
 
 
-    tables = PrettyTable(["ID", "NAMA PENAWAR", "NAMA BARANG", "TAWARAN"])
+    tables = PrettyTable(["ID", "NAMA PENAWAR", "KODE BARANG","NAMA BARANG", "TAWARAN"])
     for data in cursor:
-        data_fix = data[0],data[1],data[2],formatrupiah(data[3])
+        data_fix = data[0],data[1],data[2],data[3],formatrupiah(data[4])
         tables.add_row(data_fix)
 
     print(tables)
