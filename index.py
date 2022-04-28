@@ -19,7 +19,7 @@ def menu_admin() :
 		print(colored('[+] Menu List Admin [+]', 'yellow'))
 		print(colored("[=====================]", 'green'))
 		print(colored('[1]', 'cyan'), 'Lihat Penawaran')
-		print(colored('[2]', 'yellow'), 'Daftar Barang')
+		print(colored('[2]', 'yellow'), 'Daftar Barang Lelang')
 		print(colored('[3]', 'magenta'), 'Tambah Barang Lelang')
 		print(colored('[4]', 'blue'), 'Ubah Barang Lelang')
 		print(colored('[5]', 'red'), 'Hapus Barang Lelang ')
