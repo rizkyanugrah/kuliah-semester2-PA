@@ -1,8 +1,11 @@
+# IMPORT MODULE
 import mysql.connector
 from termcolor import colored
+from datetime import time
 
 from helper import hash_password, bersihkan_console
 
+# FUNGSII UNTUK KONEKSI KE DATABASE
 def koneksi() :
 	# sesuaikan dengan data anda
 	host 		 = 'localhost'
@@ -30,8 +33,8 @@ def koneksi() :
 
 		print(message)
 
+# FUNGSI UNTUK MEMBUAT TABLE
 def buat_tabel(seed=False) :
-	# buat tabel
 	conn = koneksi()
 	cursor = conn.cursor()
 
@@ -58,22 +61,26 @@ def buat_tabel(seed=False) :
 			kode_barang int primary key not null,
 			nama_barang varchar(100) not null,
 			harga int not null,
-			status varchar(25) not null
+			status varchar(30) not null
 		);
 	""")
 	cursor.execute("""
 		CREATE TABLE IF NOT EXISTS `proses_lelang` (
 			id_proses int primary key auto_increment not null,
 			barang_kode int(100) not null,
-			user_id int not null,
-			tawaran varchar(25) not null
+			user_id int,
+			tawaran varchar(25) not null,
+			waktu_awal time,
+			waktu_akhir time,
+			status varchar(30)
 		);
 	""")
 
+	# QUERY UNTUK RELASI ANTAR TABLE
 	cursor.execute('ALTER TABLE `proses_lelang` ADD FOREIGN KEY (`barang_kode`) REFERENCES `barang_lelang` (`kode_barang`);')
 	cursor.execute('ALTER TABLE `proses_lelang` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`);')
 
-
+	# CEK JIKA SEED NYA ADA ATAU = TRUE MAKA LAKUKAN QUERY DI BAWAH UNTUK DUMMY DATA
 	if seed :
 		cursor.execute("""
 			INSERT INTO user VALUES
@@ -125,9 +132,9 @@ def buat_tabel(seed=False) :
 
 		cursor.execute("""
 			INSERT INTO proses_lelang VALUES
-			(null, %s, %s, %s);""",
+			(null, %s, %s, %s, %s, %s, %s);""",
 			(
-				1923,3,'1000000'
+				1923,3,'1000000',time(20,00).strftime("%H:%M"),time(23,00).strftime("%H:%M"), 'PROSES',
 			)
 		)
 

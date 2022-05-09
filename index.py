@@ -9,7 +9,7 @@ from datetime import datetime
 from helper import bersihkan_console, hash_password
 from database import koneksi,buat_tabel
 from auth import login, logout, register
-from admin import lihat_penawaran,tambah,ubah,hapus
+from admin import lihat_penawaran,tambah,ubah,hapus,tambah_ke_proses_lelang
 from user import linkedlist,proses_nawar
 
 def menu_admin() :
@@ -18,12 +18,12 @@ def menu_admin() :
 		print(colored("[=====================]", 'green'))
 		print(colored('[+] Menu List Admin [+]', 'yellow'))
 		print(colored("[=====================]", 'green'))
-		print(colored('[1]', 'cyan'), 'Lihat Penawaran')
-		print(colored('[2]', 'yellow'), 'Daftar Barang Lelang')
-		print(colored('[3]', 'magenta'), 'Tambah Barang Lelang')
-		print(colored('[4]', 'blue'), 'Ubah Barang Lelang')
-		print(colored('[5]', 'red'), 'Hapus Barang Lelang ')
-		print(colored('[6]', 'green'), 'Transaksi')
+		print(colored('[1]', 'yellow'), 'Daftar Barang Lelang')
+		print(colored('[2]', 'magenta'), 'Tambah Barang Lelang')
+		print(colored('[3]', 'blue'), 'Ubah Barang Lelang')
+		print(colored('[4]', 'red'), 'Hapus Barang Lelang ')
+		print(colored('[5]', 'cyan'), 'Lihat Penawaran')
+		print(colored('[6]', 'green'), 'Tambah Barang Ke Proses Lelang')
 		print(colored('[7]', 'red'), 'Keluar')
 
 		menu = input('\nPilih: ')
@@ -49,7 +49,7 @@ def menu_user() :
 
 def app() :
 	try:
-		# buat_tabel(seed=True) uncomand jika baru pertama kali Menjalankan Program ini
+		# buat_tabel(seed=True) uncomand jika baru pertama kali menjalankan program
 		bersihkan_console()
 		print(colored("[======================================================]", 'green'))
 		print(colored("[+]     Silahkan login jika sudah punya akun         [+]", 'yellow'))
@@ -74,31 +74,36 @@ def app() :
 					menu = menu_admin()
 					if menu == '1' :
 						bersihkan_console()
-						lihat_penawaran()
+						l_user.daftar_barang()
 						input(colored('Enter Untuk Kembali!', 'yellow'))
 
 					elif menu == '2' :
 						bersihkan_console()
 						l_user.daftar_barang()
-						input(colored('Enter Untuk Kembali!', 'yellow'))
+						tambah()
+						
 
 					elif menu == '3' :
 						bersihkan_console()
 						l_user.daftar_barang()
-						tambah()
+						ubah()
+						
 
 					elif menu == '4' :
 						bersihkan_console()
 						l_user.daftar_barang()
-						ubah()
+						hapus()
+						
 
 					elif menu == '5' :
 						bersihkan_console()
-						l_user.daftar_barang()
-						hapus()
+						lihat_penawaran()
+						input(colored('Enter Untuk Kembali!', 'yellow'))
 
 					elif menu == '6' :
-						print('transaksi')
+						bersihkan_console()
+						l_user.daftar_barang()
+						tambah_ke_proses_lelang()
 
 					elif menu == '7':
 						terminate = True
@@ -132,7 +137,11 @@ def app() :
 						if menu == '1':
 							proses_nawar()
 						elif menu == '2':
-							menu_user()
+							menu
+						else:
+							print(colored("\nPilih Menu Yang Sesuai",'red'))
+							time.sleep(2)
+							bersihkan_console()
 
 					elif menu == '4' :
 						terminate = True

@@ -41,7 +41,7 @@ def login() :
 		
 		conn = koneksi()
 		cursor = conn.cursor()
-
+		
 		akun_users = cursor.execute('SELECT * FROM user WHERE email = %s LIMIT 1;', (email,))
 		akun_users = cursor.fetchall()
 

@@ -1,6 +1,7 @@
 import os
 import sys
 import bcrypt
+from datetime import time
 
 def bersihkan_console() :
 	os.system('clear' if sys.platform == 'linux' else 'cls')
@@ -16,3 +17,6 @@ def formatrupiah(uang):
         p = y[-3:]
         q = y[:-3]
         return formatrupiah(q) + '.' + p
+
+def hours_minute(hours,minute):
+    return time(hours,minute).strftime("%H:%M")

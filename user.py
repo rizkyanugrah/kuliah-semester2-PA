@@ -3,6 +3,7 @@ import time
 from admin import lihat_penawaran
 from database import koneksi
 from termcolor import colored
+from datetime import datetime
 from helper import bersihkan_console, formatrupiah
 from prettytable import PrettyTable
 import auth
@@ -82,7 +83,7 @@ class linkedlist:
 
         try:
             # cursor.execute("SELECT nama_barang FROM barang_lelang ORDER BY barang_lelang.kode_barang ASC")
-            cursor.execute("SELECT nama_barang FROM barang_lelang")
+            cursor.execute("SELECT kode_barang FROM barang_lelang")
             records = cursor.fetchall()
         except:
                 print(colored('Data Tidak Ada / Kosong!','yellow'))
@@ -91,15 +92,15 @@ class linkedlist:
 
         self.daftar_barang()
         
-        search = input('Masukan Barang Yang Ingin Di Cari : ')
+        search = int(input('Masukan Barang Yang Ingin Di Cari : '))
 
         data_list =  []
         for i in range(len(records)):
             for j in range(len(records[i])):
                 data_list.append(records[i][j])
 
+        data_list.sort()
         print(data_list)
-        # data_list.sort()
         result = self.fibonanci_search(data_list,search,len(data_list))
         print(result)
         input('...')
@@ -127,8 +128,23 @@ def hapus_queue():
 def proses_nawar():
     conn = koneksi()
     cursor = conn.cursor()
+    try:
+        kode_barang = input("\nMasukkan kode barang yang ingin ditawar : ")
+    except :
+            print(colored('BARANG NOT FOUND !','red'))
+            time.sleep(2)
+            return
 
-    kode_barang = input("\nMasukkan kode barang yang ingin ditawar : ")
+    waktu_awal = cursor.execute("SELECT waktu_awal FROM proses_lelang WHERE barang_kode = %s ", (kode_barang,))
+    waktu_awal = cursor.fetchone()
+
+    waktu_awal = waktu_awal[0]
+    now = datetime.now()
+
+    # current_time = now.strftime("%H:%M")
+    
+    print(waktu_awal)
+    input('')
 
     cursor.execute("SELECT proses_lelang.id_proses, user.nama, proses_lelang.barang_kode, barang_lelang.nama_barang, proses_lelang.tawaran FROM proses_lelang INNER JOIN user ON proses_lelang.user_id = user.id_user INNER JOIN barang_lelang on proses_lelang.barang_kode = barang_lelang.kode_barang WHERE proses_lelang.barang_kode = %s", (kode_barang,))
 
@@ -163,3 +179,4 @@ def proses_nawar():
                 proses_nawar()
     else:
         print(colored('\nKode barang tidak ditemukan!', 'red'))
+
