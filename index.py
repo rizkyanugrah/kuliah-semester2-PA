@@ -49,7 +49,7 @@ def menu_user() :
 
 def app() :
 	try:
-		# buat_tabel(seed=True) uncomand jika baru pertama kali menjalankan program
+		# buat_tabel(seed=True) #uncomand jika baru pertama kali menjalankan program
 		bersihkan_console()
 		print(colored("[======================================================]", 'green'))
 		print(colored("[+]     Silahkan login jika sudah punya akun         [+]", 'yellow'))

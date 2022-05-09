@@ -141,9 +141,14 @@ def proses_nawar():
     waktu_awal = waktu_awal[0]
     now = datetime.now()
 
-    # current_time = now.strftime("%H:%M")
+    current_time = now.strftime("%H:%M")
+    # current_time = current_time.split(':')
+
+    # waktu_awal_timedelta = now.strptime(str(waktu_awal), "%H:%M:%S")
+    # jam = waktu_awal_timedelta.strptime(str(waktu_awal), "%H:%M:%S").strftime('%H')
+    # menit = waktu_awal_timedelta.strptime(str(waktu_awal), "%H:%M:%S").strftime('%M')
     
-    print(waktu_awal)
+    print(current_time)
     input('')
 
     cursor.execute("SELECT proses_lelang.id_proses, user.nama, proses_lelang.barang_kode, barang_lelang.nama_barang, proses_lelang.tawaran FROM proses_lelang INNER JOIN user ON proses_lelang.user_id = user.id_user INNER JOIN barang_lelang on proses_lelang.barang_kode = barang_lelang.kode_barang WHERE proses_lelang.barang_kode = %s", (kode_barang,))
